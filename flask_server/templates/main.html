@@ -1,0 +1,11 @@
+{% block title %}Traductor Braille{% endblock %}
+{% block content %}
+    <form action="" method="post">
+        <label for="text">Texto: </label>
+        <input type="text" id="text" name="text" value="{{ text }}" /><br>
+        <label for="numeric_string">Texto numérico: </label>
+        <input type="text" id="result_text" name="result_text" value="{{ result_text }}"/><br>
+        <input type="submit" id="translate_action" name="translate_action" value="translate" >Traducir</input>
+        <input type="submit" id="clear_action" name="clear_action" value="clear" >Limpiar</input>
+    </form>
+{% endblock %}
