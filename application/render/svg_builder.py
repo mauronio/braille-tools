@@ -1,3 +1,5 @@
+import unidecode
+
 SPACE_TOKEN = 'S'
 NEWLINE_TOKEN = 'NL'
 
@@ -33,7 +35,10 @@ PROPORTION_BOX_XY_OFFSETS = {
     }
 }
 
-def render_box(box_string, box_x_offset, box_y_offset, box_height, box_width):
+def render_box(box_dict, box_x_offset, box_y_offset, box_height, box_width, write_original_text):
+
+    box_string = box_dict['box']
+    box_desc = box_dict['desc']
 
     output = ''
 
@@ -49,9 +54,15 @@ def render_box(box_string, box_x_offset, box_y_offset, box_height, box_width):
 
         output += ' fill="black" />'
 
+    if write_original_text:
+        decoded_box_desc = unidecode.unidecode(box_desc)
+        output += '<text x="' + str(box_x_offset + round(box_width / 4) ) + '" y="' + str(box_y_offset + round(box_height * 0.8)) + '" font-size="' + str(round(box_height / 6)) + '">' + decoded_box_desc + '</text>'
+
     return output
 
-def render_page(box_list, box_height, box_width, boxes_per_row):
+def render_page(box_list, box_height, boxes_per_row, write_original_text=True):
+
+    box_width = round(box_height * (2/3))
 
     output = '<svg width="' + str(box_width * boxes_per_row) + '" height="' + str(box_height * len(box_list)) + '" xmlns="http://www.w3.org/2000/svg">'
 
@@ -75,7 +86,7 @@ def render_page(box_list, box_height, box_width, boxes_per_row):
         box_count += 1
 
         if box_string not in (NEWLINE_TOKEN,):
-            output += render_box(box_string, box_x_offset, box_y_offset, box_height, box_width)
+            output += render_box(box_dict, box_x_offset, box_y_offset, box_height, box_width, write_original_text)
 
         if box_count == boxes_per_row or box_string == NEWLINE_TOKEN:
             box_x_offset = 0
@@ -93,8 +104,7 @@ if __name__ == "__main__":
     #page_string = '1235 24 1234 S 356 123456 S 2456 23 145 1235 NL 24 1234 S 356 NL 123456 S 2456 23 145 1235 24 1234 S 356 123456 S 2456 23 145' 
     box_list = [{'box': '3456', 'desc': 'NUM'}, {'box': '46', 'desc': 'MAY'}, {'box': '15', 'desc': 'E'}, {'box': '234', 'desc': 's'}, {'box': '2345', 'desc': 't'}, {'box': '135', 'desc': 'o'}, {'box': 'S', 'desc': 'ESPACIO'}, {'box': '3456', 'desc': 'NUM'}, {'box': '15', 'desc': 'e'}, {'box': '234', 'desc': 's'}, {'box': 'S', 'desc': 'ESPACIO'}, {'box': '3456', 'desc': 'NUM'}, {'box': '15', 'desc': 'e'}, {'box': '123', 'desc': 'l'}, {'box': 'S', 'desc': 'ESPACIO'}, {'box': '3456', 'desc': 'NUM'}, {'box': '46', 'desc': 'MAY'}, {'box': '12456', 'desc': 'Ñ'}, {'box': '1', 'desc': 'a'}, {'box': '1345', 'desc': 'n'}, {'box': '145', 'desc': 'd'}, {'box': '23456', 'desc': 'ú'}, {'box': 'S', 'desc': 'ESPACIO'}, {'box': '3456', 'desc': 'NUM'}, {'box': '1345', 'desc': 'n'}, {'box': '23456', 'desc': 'ú'}, {'box': '134', 'desc': 'm'}, {'box': '15', 'desc': 'e'}, {'box': '1235', 'desc': 'r'}, {'box': '135', 'desc': 'o'}, {'box': 'S', 'desc': 'ESPACIO'}, {'box': '12', 'desc': '2'}, {'box': '245', 'desc': '0'}, {'box': 'S', 'desc': 'ESPACIO'}, {'box': '3456', 'desc': 'NUM'}, {'box': '15', 'desc': 'e'}, {'box': '1345', 'desc': 'n'}, {'box': 'S', 'desc': 'ESPACIO'}, {'box': '3456', 'desc': 'NUM'}, {'box': '123', 'desc': 'l'}, {'box': '1', 'desc': 'a'}, {'box': 'S', 'desc': 'ESPACIO'}, {'box': '3456', 'desc': 'NUM'}, {'box': '123', 'desc': 'l'}, {'box': '24', 'desc': 'i'}, {'box': '234', 'desc': 's'}, {'box': '2345', 'desc': 't'}, {'box': '1', 'desc': 'a'}, {'box': '3', 'desc': '.'}, {'box': 'S', 'desc': 'ESPACIO'}]
     box_height = 60
-    box_width = 40
     boxes_per_row = 12
-    svg_text = render_page(box_list, box_height, box_width, boxes_per_row)
+    svg_text = render_page(box_list, box_height, boxes_per_row)
     with open('page.svg', 'w') as f:
         f.write(svg_text)

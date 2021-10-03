@@ -1,4 +1,4 @@
-import basic_alphabet as alphabet
+from . import basic_alphabet as alphabet
 import re
 
 word_pattern = re.compile(alphabet.word_regexp)
@@ -27,9 +27,11 @@ def process_token(token):
 
     output = []
 
+    print(token)
+
     number_match = number_pattern.match(token)
 
-    if not number_match is None:
+    if number_match is None:
         prefix = None
     else:
         prefix = {'box': alphabet.number_prefix, 'desc': alphabet.number_description}
