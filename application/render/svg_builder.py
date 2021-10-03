@@ -1,4 +1,6 @@
-SPACE_BOX_STRING = 'S'
+SPACE_TOKEN = 'S'
+NEWLINE_TOKEN = 'NL'
+
 PROPORTION_OFFSET_TOP = 20 / 100
 PROPORTION_OFFSET_LEFT = 30 / 100
 PROPORTION_OFFSET_DOT_RADIUS = 10 / 100
@@ -71,9 +73,10 @@ def render_page(page_string, box_height, box_width, boxes_per_row):
 
         box_count += 1
 
-        output += render_box(box_string, box_x_offset, box_y_offset, box_height, box_width)
+        if box_string not in (NEWLINE_TOKEN,):
+            output += render_box(box_string, box_x_offset, box_y_offset, box_height, box_width)
 
-        if box_count == boxes_per_row:
+        if box_count == boxes_per_row or box_string == NEWLINE_TOKEN:
             box_x_offset = 0
             box_y_offset += box_height
             box_count = 0
@@ -86,7 +89,7 @@ def render_page(page_string, box_height, box_width, boxes_per_row):
 
 if __name__ == "__main__":
 
-    page_string = '1235 24 1234 S 356 123456 S 2456 23 145 1235 24 1234 S 356 123456 S 2456 23 145 1235 24 1234 S 356 123456 S 2456 23 145' 
+    page_string = '1235 24 1234 S 356 123456 S 2456 23 145 1235 NL 24 1234 S 356 NL 123456 S 2456 23 145 1235 24 1234 S 356 123456 S 2456 23 145' 
     box_height = 60
     box_width = 40
     boxes_per_row = 12
