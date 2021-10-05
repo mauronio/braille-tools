@@ -6,6 +6,12 @@ number_pattern = re.compile(alphabet.number_regexp)
 
 def process_char(char):
 
+    if char == '\r':
+        return []
+
+    if char == '\n':
+        return [{'box': 'NL', 'desc': 'NL'}]
+
     if char.isupper():
         prefix = {'box': alphabet.uppercase_prefix, 'desc': alphabet.uppercase_description}
     else:
@@ -57,6 +63,8 @@ def process_text(text):
         numeric_box = process_token(token)
         output += numeric_box
         output += [alphabet.space_dict]
+
+    print('token_list', token_list)
 
     return output
 
