@@ -1,23 +1,41 @@
 {% block content %}
 <html>
+
+<head>
+    <title>Traductor Braille</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
 <body>
-<h1>Traductor Braille</h1>
-<hr>
-<h2>Parámetros</h2>
-    <form action="" method="post">
-        <label for="input_text">Texto</label><br>
-        <textarea name="input_text" rows="3" cols="100">{{ text }}</textarea><br>
-        <br>
-        <label for="box_height">Alto de cajetín</label><input type="number" id="box_height" name="box_height" min="6" max="1000" value="{{ box_height }}">
-        <label for="box_height">Cajetines por línea</label><input type="number" id="boxes_per_row" name="boxes_per_row" min="10" max="1000" value="{{ boxes_per_row }}">
-        <input type="checkbox" id="show_text" name="show_text" {{ checked_value }} />
-        <label for="show_text">Mostrar texto bajo los cajetines</label><br>
-        <input type="submit" id="translate_action" name="translate_action" value="Traducir" />
-        <input type="submit" id="clear_action" name="clear_action" value="Limpiar" />
-    </form>
-<hr>
-<h2>Texto Braille</h2>
-<img src = "/static/translation.svg" alt="Traducción"/>
+    <div class="form-style-1">
+        <h1>Traductor Braille</h1>
+        <form action="" method="post">
+            <label for="input_text">Texto a traducir</label>
+            <textarea name="input_text" rows="10" cols="200" class="field-long field-textarea">{{ text }}</textarea><br>
+            <br>
+            <table>
+                <tr>
+                    <td><input type="submit" id="translate_action" name="translate_action" value="Traducir" /></td>
+                    <td><input type="submit" id="clear_action" name="clear_action" value="Limpiar" /></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td><b>Alto de cajetín</b>&nbsp;<input type="number" id="box_height" name="box_height" min="6"
+                            max="1000" value="{{ box_height }}"></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td><b>Cajetines por línea</b>&nbsp;<input type="number" id="boxes_per_row" name="boxes_per_row"
+                            min="10" max="1000" value="{{ boxes_per_row }}"></td>
+                    <td></td>
+                    <td><input type="checkbox" id="show_text" name="show_text" {{ checked_value }}><b>Mostrar texto bajo
+                            los
+                            cajetines</b></input></td>
+                </tr>
+            </table>
+            <br />
+        </form>
+        <hr>
+        <h2>Texto Braille</h2>
+        <img src="/static/translation.svg" alt="Traducción" />
+    </div>
 </body>
+
 </html>
 {% endblock %}
