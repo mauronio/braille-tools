@@ -24,13 +24,21 @@
                     <td><b>Cajetines por línea</b>&nbsp;<input type="number" id="boxes_per_row" name="boxes_per_row"
                             min="10" max="1000" value="{{ boxes_per_row }}"></td>
                     <td>&nbsp;&nbsp;</td>
-                    <td><input type="checkbox" id="show_text" name="show_text" {{ checked_value }}><b>Mostrar texto bajo los cajetines</b></input></td>
+                    <td><b>Líneas por Página</b>&nbsp;<input type="number" id="rows_per_page" name="rows_per_page"
+                        min="10" max="1000" value="{{ rows_per_page }}"></td>
+                    <td>&nbsp;&nbsp;</td>
+                <td><input type="checkbox" id="show_text" name="show_text" {{ checked_value }}><b>Mostrar texto bajo los cajetines</b></input></td>
                 </tr>
             </table>
             <br />
         </form>
         <hr>
         <h2>Texto Braille</h2>
+        <table>
+            <tr><td><a href="{{ url_for('static', filename='translation.svg') }}" target="_blank" class="form-style-1" style="text-decoration: none;">Abrir como gráficos SVG</a></td><td></td><td><a href="{{ url_for('static', filename='translation.pdf') }}" target="_blank" class="form-style-1" style="text-decoration: none;">Abrir como documento PDF</a></td></tr>
+        </table>
+        
+        
         <br/>
         <img src="/static/translation.svg" alt="Traducción" />
     </div>
