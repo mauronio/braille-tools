@@ -57,7 +57,7 @@ def main():
             f.write(result_text)
 
         drawing = svg2rlg(os.path.join(current_app.root_path, 'static', 'translation.svg'))
-        renderPDF.drawToFile(drawing, os.path.join(current_app.root_path, 'static', 'translation.PDF'))
+        renderPDF.drawToFile(drawing, os.path.join(current_app.root_path, 'static', 'translation.pdf'))
 
     return render_template("main.html", text=input_text, result_text=result_text, box_height=box_height, boxes_per_row = boxes_per_row, rows_per_page = rows_per_page, checked_value=checked_value)
 
