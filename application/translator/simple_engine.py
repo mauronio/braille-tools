@@ -1,5 +1,8 @@
+from os import replace
 from . import basic_alphabet as alphabet
 import re
+
+TOKEN_NEWLINE = '\n'
 
 word_pattern = re.compile(alphabet.word_regexp)
 number_pattern = re.compile(alphabet.number_regexp)
@@ -9,7 +12,7 @@ def process_char(char):
     if char == '\r':
         return []
 
-    if char == '\n':
+    if char == TOKEN_NEWLINE:
         return [{'box': 'NL', 'desc': 'NL'}]
 
     if char.isupper():
@@ -58,13 +61,30 @@ def process_text(text):
 
     output = []
 
-    token_list = text.split(' ')
+    token_list = []
+    current_token = ''
+    for char in text:
+        if char == ' ' or char == TOKEN_NEWLINE:
+
+            if len(current_token) > 0:
+                token_list.append(current_token)
+                current_token = ''
+
+            token_list.append(char)
+
+        elif char != '\r':
+
+            current_token += char
+
+    if len(current_token) > 0:
+        token_list.append(current_token)
+    
     for token in token_list:
         numeric_box = process_token(token)
         output += numeric_box
-        output += [alphabet.space_dict]
 
     print('token_list', token_list)
+    print('output', output)
 
     return output
 
