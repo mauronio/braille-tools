@@ -6,12 +6,7 @@
  * Running on all addresses.
    WARNING: This is a development server. Do not use it in a production deployment.
  * Running on http://31.220.21.151:8080/ (Press CTRL+C to quit)
-186.105.20.24 - - [05/Oct/2021 03:24:32] "POST / HTTP/1.1" 200 -
-186.105.20.24 - - [05/Oct/2021 03:24:33] "GET /static/css/main.css HTTP/1.1" 304 -
-186.105.20.24 - - [05/Oct/2021 03:24:33] "GET /static/translation.svg HTTP/1.1" 200 -
-186.105.20.24 - - [05/Oct/2021 03:24:33] "GET / HTTP/1.1" 200 -
-186.105.20.24 - - [05/Oct/2021 03:24:42] "POST / HTTP/1.1" 200 -
-186.105.20.24 - - [05/Oct/2021 03:24:43] "GET /static/css/main.css HTTP/1.1" 304 -
-186.105.20.24 - - [05/Oct/2021 03:24:43] "GET /static/translation.svg HTTP/1.1" 200 -
-186.105.20.24 - - [05/Oct/2021 03:24:44] "GET / HTTP/1.1" 200 -
-./run.sh: line 5:  1563 Killed                  flask run --host=0.0.0.0 --port=8080
+186.79.59.138 - - [08/Oct/2021 15:32:31] "GET / HTTP/1.1" 200 -
+186.79.59.138 - - [08/Oct/2021 15:32:32] "GET /static/css/main.css HTTP/1.1" 200 -
+186.79.59.138 - - [08/Oct/2021 15:32:32] "GET /static/translation.svg HTTP/1.1" 200 -
+./run.sh: line 5: 20849 Terminated              flask run --host=0.0.0.0 --port=8080
