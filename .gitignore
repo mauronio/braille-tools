@@ -5,6 +5,8 @@ __pycache__/
 
 # generated SVG
 *.svg
+*.pdf
+*.PDF
 
 # Logs
 *.out
