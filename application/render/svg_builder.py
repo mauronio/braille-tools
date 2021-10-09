@@ -95,7 +95,7 @@ def render_pages(box_list, box_height, boxes_per_row, rows_per_page, write_origi
 
         if row_index > rows_per_page or box_string == NEWPAGE_BOX:
             row_index = 0
-            svg_header = '<svg width="' + str(box_width * boxes_per_row + left_margin * 2) + '" height="' + str(box_y_offset + (box_height * 2)) + '" xmlns="http://www.w3.org/2000/svg">'
+            svg_header = '<svg width="' + str(box_width * boxes_per_row + left_margin * 2) + '" height="' + str((rows_per_page + 1) * box_height) + '" xmlns="http://www.w3.org/2000/svg">'
             page_output += '\n</svg>'
             book.append(svg_header + page_output)
             box_x_offset = left_margin
@@ -104,7 +104,7 @@ def render_pages(box_list, box_height, boxes_per_row, rows_per_page, write_origi
 
     page_output += '\n</svg>'
 
-    svg_header = '<svg width="' + str(box_width * boxes_per_row + left_margin * 2) + '" height="' + str(box_y_offset + (box_height * 2)) + '" xmlns="http://www.w3.org/2000/svg">'
+    svg_header = '<svg width="' + str(box_width * boxes_per_row + left_margin * 2) + '" height="' + str((rows_per_page + 1) * box_height) + '" xmlns="http://www.w3.org/2000/svg">'
 
     book.append(svg_header + page_output)
 
