@@ -1,7 +1,8 @@
 import unidecode
 
 SPACE_TOKEN = 'S'
-NEWLINE_TOKEN = 'NL'
+NEWLINE_BOX = 'NL'
+NEWPAGE_BOX = 'NP'
 
 PROPORTION_OFFSET_TOP = 20 / 100
 PROPORTION_OFFSET_LEFT = 30 / 100
@@ -60,38 +61,54 @@ def render_box(box_dict, box_x_offset, box_y_offset, box_height, box_width, writ
 
     return output
 
-def render_page(box_list, box_height, boxes_per_row, rows_per_page, write_original_text=True):
+def render_pages(box_list, box_height, boxes_per_row, rows_per_page, write_original_text=True):
+
+    book = []
 
     upper_margin = round(box_height * (1/3))
     left_margin = round(box_height * (1/6))
     box_width = round(box_height * (2/3))
 
-    output = ''
+    page_output = ''
 
     box_x_offset = left_margin
     box_y_offset = upper_margin
     box_count = 0
+
+    row_index = 0
 
     for box_dict in box_list:
 
         box_string = box_dict['box']
         box_count += 1
 
-        if box_string not in (NEWLINE_TOKEN,):
-            output += render_box(box_dict, box_x_offset, box_y_offset, box_height, box_width, write_original_text)
+        if box_string not in (NEWLINE_BOX,NEWPAGE_BOX):
+            page_output += render_box(box_dict, box_x_offset, box_y_offset, box_height, box_width, write_original_text)
 
-        if box_count == boxes_per_row or box_string == NEWLINE_TOKEN:
+        if box_count == boxes_per_row or box_string == NEWLINE_BOX:
             box_x_offset = left_margin
             box_y_offset += box_height
             box_count = 0
+            row_index +=1
         else:
             box_x_offset += box_width
 
-    output += '\n</svg>'
+        if row_index > rows_per_page or box_string == NEWPAGE_BOX:
+            row_index = 0
+            svg_header = '<svg width="' + str(box_width * boxes_per_row + left_margin * 2) + '" height="' + str(box_y_offset + (box_height * 2)) + '" xmlns="http://www.w3.org/2000/svg">'
+            page_output += '\n</svg>'
+            book.append(svg_header + page_output)
+            box_x_offset = left_margin
+            box_y_offset = upper_margin
+            page_output = ''
 
-    svg_header = '<svg width="' + str(box_width * boxes_per_row) + '" height="' + str(box_y_offset + (box_height * 2)) + '" xmlns="http://www.w3.org/2000/svg">'
+    page_output += '\n</svg>'
 
-    return svg_header + output
+    svg_header = '<svg width="' + str(box_width * boxes_per_row + left_margin * 2) + '" height="' + str(box_y_offset + (box_height * 2)) + '" xmlns="http://www.w3.org/2000/svg">'
+
+    book.append(svg_header + page_output)
+
+    return book
 
 if __name__ == "__main__":
 
@@ -100,6 +117,6 @@ if __name__ == "__main__":
     box_height = 60
     boxes_per_row = 12
     rows_per_page = 30
-    svg_text = render_page(box_list, box_height, boxes_per_row, rows_per_page)
+    svg_text = render_pages(box_list, box_height, boxes_per_row, rows_per_page)
     with open('page.svg', 'w') as f:
         f.write(svg_text)

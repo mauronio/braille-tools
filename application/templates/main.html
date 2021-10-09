@@ -32,15 +32,28 @@
             </table>
             <br />
         </form>
-        <hr>
         <h2>Texto Braille</h2>
-        <table>
-            <tr><td><a href="{{ url_for('static', filename='translation.svg') }}" target="_blank" class="form-style-1" style="text-decoration: none;">Abrir como gráficos SVG</a></td><td></td><td><a href="{{ url_for('static', filename='translation.pdf') }}" target="_blank" class="form-style-1" style="text-decoration: none;">Abrir como documento PDF</a></td></tr>
-        </table>
+
+        {% if book_length > 0 %}
+
+            <table>
+                <tr><td><a href="{{ url_for('static', filename='translation.pdf') }}" target="_blank" class="form-style-1" style="text-decoration: none;">Abrir como documento PDF</a></td></tr>
+            </table>
         
+        {% endif %}
         
         <br/>
-        <img src="/static/translation.svg" alt="Traducción" />
+        {% for i in range(1, book_length + 1)%}
+        <hr>
+        <table>
+            <tr>
+                {% if book_length > 1 %}
+                    <td>Página {{ i }}</td>
+                {% endif %}
+            </tr>
+        </table>
+        <img src="/static/translation_{{ i }}.svg" alt="Traducción" />
+        {% endfor %}
     </div>
 </body>
 

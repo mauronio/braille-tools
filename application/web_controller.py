@@ -8,6 +8,8 @@ import os
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
 
+from PyPDF2 import PdfFileMerger
+
 DEFAULT_BOX_HEIGHT = 60
 DEFAULT_BOXES_PER_ROW = 40
 DEFAULT_ROWS_PER_PAGE = 30
@@ -42,24 +44,36 @@ def main():
     print('translate_action', translate_action)
     print('clear_action', clear_action)
 
-    result_text = ''
+    rendered_book = []
 
     if not clear_action is None:
         input_text = ''
-        result_text = ''
+        rendered_book = []
         translate_action = 'OK'
 
     if not translate_action is None:
         raw_translation = engine.process_text(input_text)
-        rendered_translation = svg_builder.render_page(raw_translation, int(box_height), int(boxes_per_row), int(rows_per_page), write_original_text)
-        result_text = rendered_translation
-        with open('static/translation.svg', 'w') as f:
-            f.write(result_text)
+        rendered_book = svg_builder.render_pages(raw_translation, int(box_height), int(boxes_per_row), int(rows_per_page), write_original_text)
+        pdf_page_list = []
+        for i in range(1, len(rendered_book) + 1):
+            rendered_page = rendered_book[i-1] 
+            with open('static/translation_' + str(i) + '.svg', 'w') as f:
+                f.write(rendered_page)
 
-        drawing = svg2rlg(os.path.join(current_app.root_path, 'static', 'translation.svg'))
-        renderPDF.drawToFile(drawing, os.path.join(current_app.root_path, 'static', 'translation.pdf'))
+            drawing = svg2rlg(os.path.join(current_app.root_path, 'static', 'translation_' + str(i) + '.svg'))
+            pdf_filepath = os.path.join(current_app.root_path, 'static', 'translation_' + str(i) + '.pdf')
+            renderPDF.drawToFile(drawing, pdf_filepath)
+            pdf_page_list.append(pdf_filepath)
 
-    return render_template("main.html", text=input_text, result_text=result_text, box_height=box_height, boxes_per_row = boxes_per_row, rows_per_page = rows_per_page, checked_value=checked_value)
+        merger = PdfFileMerger()
+
+        for pdf in pdf_page_list:
+            merger.append(pdf)
+        merger.write(os.path.join(current_app.root_path, 'static', 'translation.pdf'))
+        merger.close()
+
+    print ('rendered_book len', len(rendered_book))
+    return render_template("main.html", text=input_text, book=rendered_book, book_length=len(rendered_book), box_height=box_height, boxes_per_row = boxes_per_row, rows_per_page = rows_per_page, checked_value=checked_value)
 
 @app.route('/about')
 def about():

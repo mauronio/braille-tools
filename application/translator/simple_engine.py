@@ -3,6 +3,7 @@ from . import basic_alphabet as alphabet
 import re
 
 TOKEN_NEWLINE = '\n'
+TOKEN_NEWPAGE = '--'
 
 word_pattern = re.compile(alphabet.word_regexp)
 number_pattern = re.compile(alphabet.number_regexp)
@@ -32,29 +33,38 @@ def process_char(char):
     else:
         return [box]
 
-def process_token(token):
-
-    output = []
-
+def process_token(token, previous_token):
     print(token)
 
-    number_match = number_pattern.match(token)
+    if token == TOKEN_NEWPAGE and previous_token == TOKEN_NEWLINE:
 
-    if number_match is None:
-        prefix = None
+        return [{'box': 'NP', 'desc': 'New Page'}]
+
+    elif token == TOKEN_NEWLINE and previous_token == TOKEN_NEWPAGE:
+
+        return []
+
     else:
-        prefix = {'box': alphabet.number_prefix, 'desc': alphabet.number_description}
 
-    output_char = []
-    for char in token:
-        output_char += process_char(char)
+        output = []
 
-    if not prefix is None:
-        output += [prefix]
+        number_match = number_pattern.match(token)
 
-    output += output_char
+        if number_match is None:
+            prefix = None
+        else:
+            prefix = {'box': alphabet.number_prefix, 'desc': alphabet.number_description}
 
-    return output
+        output_char = []
+        for char in token:
+            output_char += process_char(char)
+
+        if not prefix is None:
+            output += [prefix]
+
+        output += output_char
+
+        return output
     
 
 def process_text(text):
@@ -78,10 +88,12 @@ def process_text(text):
 
     if len(current_token) > 0:
         token_list.append(current_token)
-    
+
+    previous_token = None    
     for token in token_list:
-        numeric_box = process_token(token)
+        numeric_box = process_token(token, previous_token)
         output += numeric_box
+        previous_token = token
 
     print('token_list', token_list)
     print('output', output)
