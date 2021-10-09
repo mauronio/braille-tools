@@ -6,7 +6,10 @@
  * Running on all addresses.
    WARNING: This is a development server. Do not use it in a production deployment.
  * Running on http://31.220.21.151:8080/ (Press CTRL+C to quit)
-186.79.59.138 - - [08/Oct/2021 15:32:31] "GET / HTTP/1.1" 200 -
-186.79.59.138 - - [08/Oct/2021 15:32:32] "GET /static/css/main.css HTTP/1.1" 200 -
-186.79.59.138 - - [08/Oct/2021 15:32:32] "GET /static/translation.svg HTTP/1.1" 200 -
-./run.sh: line 5: 20849 Terminated              flask run --host=0.0.0.0 --port=8080
+186.79.59.138 - - [08/Oct/2021 15:59:40] "POST / HTTP/1.1" 200 -
+186.79.59.138 - - [08/Oct/2021 15:59:41] "GET /static/css/main.css HTTP/1.1" 304 -
+186.79.59.138 - - [08/Oct/2021 15:59:41] "GET /static/translation.svg HTTP/1.1" 200 -
+186.79.59.138 - - [08/Oct/2021 15:59:46] "GET /static/translation.pdf HTTP/1.1" 200 -
+45.61.184.37 - - [08/Oct/2021 16:40:01] "POST /boaform/admin/formLogin HTTP/1.1" 404 -
+203.89.27.51 - - [08/Oct/2021 16:58:49] "GET / HTTP/1.1" 200 -
+184.105.139.69 - - [08/Oct/2021 16:59:45] "GET / HTTP/1.1" 200 -
