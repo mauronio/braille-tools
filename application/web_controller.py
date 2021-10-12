@@ -13,6 +13,8 @@ from PyPDF2 import PdfFileMerger
 DEFAULT_BOX_HEIGHT = 60
 DEFAULT_BOXES_PER_ROW = 40
 DEFAULT_ROWS_PER_PAGE = 30
+DEFAULT_LEFT_MARGIN = 60
+DEFAULT_TOP_MARGIN = 60
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -25,6 +27,8 @@ def main():
     box_height = request.form.get('box_height', DEFAULT_BOX_HEIGHT)
     boxes_per_row = request.form.get('boxes_per_row', DEFAULT_BOXES_PER_ROW)
     rows_per_page = request.form.get('rows_per_page', DEFAULT_ROWS_PER_PAGE)
+    left_margin = request.form.get('left_margin', DEFAULT_LEFT_MARGIN)
+    top_margin = request.form.get('top_margin', DEFAULT_TOP_MARGIN)
 
     numeric_string = request.form.get('numeric_string')
     translate_action = request.form.get('translate_action')
@@ -53,7 +57,7 @@ def main():
 
     if not translate_action is None:
         raw_translation = engine.process_text(input_text)
-        rendered_book = svg_builder.render_pages(raw_translation, int(box_height), int(boxes_per_row), int(rows_per_page), write_original_text)
+        rendered_book = svg_builder.render_pages(raw_translation, int(box_height), int(boxes_per_row), int(rows_per_page), int(left_margin), int(top_margin), write_original_text)
         pdf_page_list = []
         for i in range(1, len(rendered_book) + 1):
             rendered_page = rendered_book[i-1] 
@@ -73,7 +77,7 @@ def main():
         merger.close()
 
     print ('rendered_book len', len(rendered_book))
-    return render_template("main.html", text=input_text, book=rendered_book, book_length=len(rendered_book), box_height=box_height, boxes_per_row = boxes_per_row, rows_per_page = rows_per_page, checked_value=checked_value)
+    return render_template("main.html", text=input_text, book=rendered_book, book_length=len(rendered_book), box_height=box_height, boxes_per_row = boxes_per_row, rows_per_page = rows_per_page, left_margin=left_margin, top_margin=top_margin, checked_value=checked_value)
 
 @app.route('/about')
 def about():

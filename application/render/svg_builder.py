@@ -61,18 +61,16 @@ def render_box(box_dict, box_x_offset, box_y_offset, box_height, box_width, writ
 
     return output
 
-def render_pages(box_list, box_height, boxes_per_row, rows_per_page, write_original_text=True):
+def render_pages(box_list, box_height, boxes_per_row, rows_per_page, left_margin, top_margin, write_original_text=True):
 
     book = []
 
-    upper_margin = round(box_height * (1/3))
-    left_margin = round(box_height * (1/6))
     box_width = round(box_height * (2/3))
 
     page_output = ''
 
     box_x_offset = left_margin
-    box_y_offset = upper_margin
+    box_y_offset = top_margin
     box_count = 0
 
     row_index = 0
@@ -99,7 +97,7 @@ def render_pages(box_list, box_height, boxes_per_row, rows_per_page, write_origi
             page_output += '\n</svg>'
             book.append(svg_header + page_output)
             box_x_offset = left_margin
-            box_y_offset = upper_margin
+            box_y_offset = top_margin
             page_output = ''
 
     page_output += '\n</svg>'
