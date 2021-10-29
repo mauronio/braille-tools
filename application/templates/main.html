@@ -13,7 +13,7 @@
             <label for="input_text">Texto a traducir</label>
             <textarea name="input_text" rows="10" cols="200" class="field-long field-textarea">{{ text }}</textarea><br>
             <br>
-            <table>
+            <table style="text-align:right">
                 <tr>
                     <td><input type="submit" id="translate_action" name="translate_action" value="Traducir" /></td>
                     <td></td>
@@ -38,6 +38,9 @@
                     <td>&nbsp;&nbsp;</td>
                     <td><b>Margen Superior</b>&nbsp;<input type="number" id="top_margin" name="top_margin"
                         min="10" max="1000" value="{{ top_margin }}"></td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td><b>Porcentaje tamaño texto respecto a cajetín</b>&nbsp;<input type="number" id="text_height_percentage" name="text_height_percentage"
+                        min="10" max="1000" value="{{ text_height_percentage }}"></td>
                     <td>&nbsp;&nbsp;</td>
                     <td></td>
                     <td>&nbsp;&nbsp;</td>
