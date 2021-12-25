@@ -1,7 +1,7 @@
 word_regexp = '[a-zA-Z]+.*'
 number_regexp = '[0-9]+.*'
 uppercase_prefix = '46'
-uppercase_description = 'MAY'
+uppercase_description = 'MY'
 number_prefix = '3456'
 number_description = 'NUM'
 error_description = '???'
